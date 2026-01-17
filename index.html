@@ -307,7 +307,7 @@
                     <input type="number" id="oldstockSold" value="0">
                 </div>
                 <div class="input-group">
-                    <label for="oldstockExtra">oldstock ponad 200 DIS szt</label>
+                    <label for="oldstockExtra">oldstock ponad 250 DIS szt</label>
                     <input type="number" id="oldstockExtra" value="0">
                 </div>
                 <div class="input-group">
@@ -408,7 +408,7 @@
             const cashBonus = cashSold * kpiLevel.cashBonus;
             const leasingBonus = leasingSold * kpiLevel.leasingBonus;
             const oldstockBonus = calculateOldstockBonus(oldstockSold);
-            const oldstockExtraBonus = oldstockExtra * 250;
+            const oldstockExtraBonus = oldstockExtra * 200;
             const electricBonus = electric * 100;
             const swapBonus = calculateSwapBonus(swap);
 
