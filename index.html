@@ -54,6 +54,7 @@
         .flag {
             height: 60px;
             width: auto;
+            border: 1px solid #1a3a5c;
         }
 
         .name-section {
@@ -242,69 +243,79 @@
                 padding: 0;
                 margin: 0;
             }
+            
             .container {
                 box-shadow: none;
-                padding: 15px;
+                padding: 20px;
                 max-width: 100%;
             }
+            
+            /* SKRÝT formulář při tisku */
+            .name-section,
+            .input-section,
             .button-group {
-                display: none;
+                display: none !important;
             }
+            
+            /* Zobrazit pouze výsledky */
             h1 {
-                font-size: 18px;
-                margin-bottom: 10px;
+                font-size: 22px;
+                margin-bottom: 15px;
                 page-break-after: avoid;
             }
-            .logo, .flag {
-                height: 40px;
+            
+            .logo {
+                height: 50px;
+                width: auto;
             }
-            .name-section, .input-section {
-                padding: 8px;
-                margin-bottom: 8px;
-                page-break-inside: avoid;
+            
+            .flag {
+                height: 50px;
+                width: auto;
+                border: 1px solid #666;
             }
-            .section-title {
-                font-size: 13px;
-                margin-bottom: 6px;
-                padding-bottom: 4px;
-            }
-            .input-grid, .input-grid-two {
-                gap: 6px;
-            }
-            label {
-                font-size: 11px;
-                margin-bottom: 2px;
-            }
-            input {
-                padding: 4px;
-                font-size: 13px;
-            }
+            
             .results {
-                padding: 15px;
-                margin-top: 10px;
+                display: block !important;
+                padding: 20px;
+                margin-top: 15px;
                 page-break-inside: avoid;
             }
+            
             .employee-info {
+                font-size: 18px;
+                margin-bottom: 15px;
+                padding-bottom: 12px;
+            }
+            
+            .section-title {
                 font-size: 16px;
                 margin-bottom: 10px;
-                padding-bottom: 10px;
+                padding-bottom: 8px;
             }
+            
             .result-row {
-                padding: 6px 0;
-                font-size: 13px;
+                padding: 8px 0;
+                font-size: 14px;
             }
+            
+            .result-label {
+                font-size: 14px;
+            }
+            
+            .result-value {
+                font-size: 15px;
+            }
+            
             .total-row {
-                padding: 12px;
-                font-size: 18px;
-                margin-top: 10px;
+                padding: 15px;
+                font-size: 20px;
+                margin-top: 15px;
             }
+            
             .kpi-badge {
-                font-size: 11px;
-                padding: 3px 10px;
-            }
-            /* Force everything on one page */
-            * {
-                page-break-inside: avoid;
+                font-size: 12px;
+                padding: 4px 12px;
             }
         }
 
@@ -327,6 +338,10 @@
 
             .logo, .flag {
                 width: 120px;
+            }
+            
+            .flag {
+                border: 1px solid #1a3a5c;
             }
 
             .title-text {
@@ -421,6 +436,10 @@
             .logo, .flag {
                 width: 80px;
             }
+            
+            .flag {
+                border: 1px solid #1a3a5c;
+            }
 
             /* Grid na 1 sloupec pro velmi malé displeje */
             .input-grid {
@@ -445,6 +464,10 @@
 
             .logo, .flag {
                 width: 100px;
+            }
+            
+            .flag {
+                border: 1px solid #1a3a5c;
             }
         }
     </style>

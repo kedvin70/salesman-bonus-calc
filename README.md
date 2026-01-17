@@ -35,9 +35,11 @@ Za 30 sekund: https://kedvin70.github.io/salesman-bonus-calc/
   - Nad 6 kusů: × 50 zł za každý další kus
 ✅ Oldstock Extra Bonus: 200 PLN (opraveno z 250 PLN)
 ✅ Tisk optimalizován na 1 stránku
-  - Kompaktní layout pro tisk
-  - Menší fonty a paddingy
-  - Všechno se vejde na jednu stranu A4
+  - Formulář (input pole) se při tisku SKRÝVÁ
+  - Zobrazují se pouze VÝSLEDKY výpočtu
+  - Logo, jméno prodejce a všechny bonusy
+  - Vše na jedné stránce A4
+  - Border kolem vlajky aby byla vidět bílá část při tisku
 
 ## Struktura projektu:
 ```
