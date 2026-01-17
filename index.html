@@ -41,8 +41,9 @@
         }
 
         .logo {
-            width: 211px;
-            height: auto;
+            height: 60px;
+            width: auto;
+            object-fit: contain;
         }
 
         .title-text {
@@ -51,8 +52,8 @@
         }
 
         .flag {
-            width: 211px;
-            height: auto;
+            height: 60px;
+            width: auto;
         }
 
         .name-section {
@@ -221,33 +222,229 @@
         }
 
         .kpi-1 {
-            background: #48bb78;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
         }
 
         .kpi-2 {
-            background: #4299e1;
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
             color: white;
         }
 
         .no-kpi {
-            background: #f56565;
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
             color: white;
         }
 
         @media print {
             body {
                 background: white;
+                padding: 0;
+                margin: 0;
             }
             .container {
                 box-shadow: none;
-                background: white;
+                padding: 15px;
+                max-width: 100%;
             }
             .button-group {
                 display: none;
             }
-            .input-section, .name-section {
-                display: none;
+            h1 {
+                font-size: 18px;
+                margin-bottom: 10px;
+                page-break-after: avoid;
+            }
+            .logo, .flag {
+                height: 40px;
+            }
+            .name-section, .input-section {
+                padding: 8px;
+                margin-bottom: 8px;
+                page-break-inside: avoid;
+            }
+            .section-title {
+                font-size: 13px;
+                margin-bottom: 6px;
+                padding-bottom: 4px;
+            }
+            .input-grid, .input-grid-two {
+                gap: 6px;
+            }
+            label {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+            input {
+                padding: 4px;
+                font-size: 13px;
+            }
+            .results {
+                padding: 15px;
+                margin-top: 10px;
+                page-break-inside: avoid;
+            }
+            .employee-info {
+                font-size: 16px;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+            }
+            .result-row {
+                padding: 6px 0;
+                font-size: 13px;
+            }
+            .total-row {
+                padding: 12px;
+                font-size: 18px;
+                margin-top: 10px;
+            }
+            .kpi-badge {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+            /* Force everything on one page */
+            * {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                flex-direction: column;
+                gap: 10px;
+                font-size: 18px;
+            }
+
+            .logo, .flag {
+                width: 120px;
+            }
+
+            .title-text {
+                font-size: 16px;
+            }
+
+            /* Grid změna na 2 sloupce */
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .input-grid-two {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            label {
+                font-size: 13px;
+            }
+
+            input {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .section-title {
+                font-size: 15px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .calculate-btn, .print-btn {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .results {
+                padding: 15px;
+            }
+
+            .employee-info {
+                font-size: 16px;
+            }
+
+            .result-row {
+                flex-direction: column;
+                gap: 5px;
+                padding: 12px 0;
+            }
+
+            .result-label {
+                font-size: 14px;
+            }
+
+            .result-value {
+                font-size: 16px;
+                text-align: left;
+            }
+
+            .total-row {
+                flex-direction: column;
+                gap: 10px;
+                font-size: 18px;
+                text-align: center;
+            }
+
+            .kpi-badge {
+                display: block;
+                margin: 5px 0 0 0;
+                font-size: 12px;
+            }
+        }
+
+        /* Extra malé mobily */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 16px;
+            }
+
+            .logo, .flag {
+                width: 80px;
+            }
+
+            /* Grid na 1 sloupec pro velmi malé displeje */
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title-text {
+                font-size: 14px;
+            }
+        }
+
+        /* Landscape mobile mode */
+        @media (max-width: 900px) and (orientation: landscape) {
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                flex-direction: row;
+                font-size: 16px;
+            }
+
+            .logo, .flag {
+                width: 100px;
             }
         }
     </style>
@@ -255,8 +452,8 @@
 <body>
     <div class="container">
         <h1>
-            <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAAA4CAYAAABs2FYvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAUnSURBVHgB7Z1NbhNBEIWrYo+AwEIS4QAcAC4QOEDgAuECARcIJ8ATEMkRuEE4QOAAgRMQL2CZ2KsIEVtUZWInMrE99T/dtvqTIjupGXsm/ebV6+mpbgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA9X48+nQoL18SgASx07rNy/XVCyABnnz6kpfv80VRnLhyNS9f2lMgcux0/ra8vEvv9Jvrz/e+/QdEx2Pl70qL3wU5EzkWqVLyD4QcD4tPwdsjr/LiufYU6JUJ5VqUW3kgEKN7ecGPzFN5eURjwU/S1bx8uPH67NcliAo7jZ+XQzfcn1iKT5CcwuPhf/z47qfXQHTYqftzr8f+n/j+Y+UpUCe2/yzUfx/ys+jj8T/RP5TCD16fAHVi++9V85G/dNZjrz/8uh9R6q+uAOqkUX9epKj68Y5gUd7m0a5O//MpUCe2/3Y9X/+u+s/UsPbz+KduBHh+m9rTl+P7ZMUvn/HitVdujl/k5SfOCPOiPAXqxPbfy4v4+usSZzO+3/Z+/eMl2cZWS/zjePvCjbAj6pZAfTTqn8J55c29s5TjHwm6hDO3AOrE9p8Uc57y8r+l+DT8yM0Ly7cLf/f1x/eeuvJyVhp/T1d+7X6f4pdjxKO8OOGPqTJvAHVi+8+6OLR3rOD0nY+l+LTx9Pc0/ujv4euT9oV/dOJhePsVnAXQgO0/K65dpDllxaeAzyjA51TwRaE+/vPwOa2BPUzL/nvs/DWrP83Zp/leuD7uqE//vL4HZwH0QPtv8eU+x/k4mU99+uf/+QMa7h+rEX5ZHkpDCLMZP+C49/B3UM+Dx85fi6j4NMfvsROmL5bjD3gGe+i+AgCsD6o/AAAAAACQ15p3X3Xbt+1e+o/dP0Ru7B2nz6/b/YH9Lz+9W2YPoBoZ5uyzE+BL+eBfv2a7CU88SHW7lUHe+trdPW2/C+iGNJ32vzvuP9g+7vGrcI93p29Kws/4tl/d50kEeMvnBSXI9ItE0nj55cOHufvs/yewP9W/20eDtKe5exWjCL6yqMRX71LSNfqo+H1X/A70JZD0vyN+q2+fJ4H0WaSpEyPvfYpGcKy4pPx7X0rZF1L9T0FfAkn/u1PSF+2/z5NIWvL/cO9RrKSH+8JW/I2E/1n16wnylu4vku53hPPqE9Kf5P/+3oPYCdx6p9K1r8r/s+C7+/HT/XmO9On+ItN+B/oSSPpNqrGNXnxajfaB/y0p/z7vFkn6LY+/37aPsYjRnJqbB/o69M+b/tteNHzg/1/VF/bf/e5IIGnjf6H7RZI+BroCxDa1Kf+1Yzp8hgN+xOfUhJv0s/KfbRW/bZZf1j9JoC8+bW/s+5/vxE/b2/t+5x/b9j6+pQb0HfBp++mS+d0Kk9/gW2WZnj71j1fU3P/SB/wQNv+mFl+z9fPbbfM3tf6xBXzvSm+fJ5E0v5aW/3sV0p/+Xm2o+l8nTQV/T9X/YON6+jyJpDlt/5Xlf1Hrf5E0p+0PRf6z/f+f6r+h+lf77z+cFPnf/o4S/K4d7p8nkbSkHSvov/e+v/d9EkkvnE/Lr+V/o/X3eRJJ7wWvpf9e1X+T9a+fzf9Y5f87w9/6m/zvUwO20v9V+u91va/q/0Dzf1Xbr+r/wnB/k/d9nkTS+f5XFf/Nvvsn+u9VOy7Tf5+2t/f9U0v6sKT/jdZfy///1fY2vt/+vrL4/qfB/vb3Nti/lv/3+ecEAAAAAAAAAIAdMX8BZJATfzvHnGsAAAAASUVORK5CYII=" alt="AAA AUTO">
-            <span class="title-text">Kalkulator Bonusów Sprzedażowych - KPI Winter Poland</span>
+            <img src="AAA_AUTO_logo_white_only.png" alt="AAA AUTO" class="logo">
+            <span class="title-text">Kalkulačka prodejních bonusů - KPI Winter Poland</span>
             <svg class="flag" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288">
                 <rect width="640" height="144" y="0" fill="#ffffff"/>
                 <rect width="640" height="144" y="144" fill="#dc143c"/>
@@ -435,7 +632,11 @@
                     <span class="result-value positive">${leasingBonus.toFixed(2)} zł</span>
                 </div>
                 <div class="result-row">
-                    <span class="result-label">Oldstock: ${oldstockSold} szt</span>
+                    <span class="result-label">Oldstock: ${oldstockSold} szt${
+                        oldstockSold < 4 ? ' (poniżej 4 szt: -300 zł)' :
+                        oldstockSold >= 4 && oldstockSold <= 6 ? ' (4-6 szt: 0 zł)' :
+                        ` × 50 zł (${oldstockSold - 6} szt ponad 6)`
+                    }</span>
                     <span class="result-value ${oldstockBonus >= 0 ? 'positive' : 'negative'}">${oldstockBonus.toFixed(2)} zł</span>
                 </div>
                 <div class="result-row">
