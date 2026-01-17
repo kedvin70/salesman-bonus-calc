@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Bonusów Sprzedażowych - KPI Winter Poland</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f2744;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #1a3a5c;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 211px;
+            height: auto;
+        }
+
+        .title-text {
+            flex: 1;
+            text-align: center;
+        }
+
+        .flag {
+            width: 211px;
+            height: auto;
+        }
+
+        .name-section {
+            background: #2c5282;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .input-section {
+            background: #2c5282;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .input-grid-two {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #e2e8f0;
+            font-size: 12px;
+        }
+
+        input {
+            padding: 6px;
+            border: 2px solid #4a5568;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #4299e1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .calculate-btn, .print-btn {
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #2f855a 100%);
+        }
+
+        .calculate-btn:hover, .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(66, 153, 225, 0.4);
+        }
+
+        .calculate-btn:active, .print-btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            display: none;
+            background: #2c5282;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .employee-info {
+            text-align: center;
+            color: #e2e8f0;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4299e1;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #4299e1;
+        }
+
+        .result-value.positive {
+            color: #48bb78;
+        }
+
+        .result-value.negative {
+            color: #f56565;
+        }
+
+        .total-row {
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .kpi-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .kpi-1 {
+            background: #48bb78;
+            color: white;
+        }
+
+        .kpi-2 {
+            background: #4299e1;
+            color: white;
+        }
+
+        .no-kpi {
+            background: #f56565;
+            color: white;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                background: white;
+            }
+            .button-group {
+                display: none;
+            }
+            .input-section, .name-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAAA4CAYAAABs2FYvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAUnSURBVHgB7Z1NbhNBEIWrYo+AwEIS4QAcAC4QOEDgAuECARcIJ8ATEMkRuEE4QOAAgRMQL2CZ2KsIEVtUZWInMrE99T/dtvqTIjupGXsm/ebV6+mpbgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA9X48+nQoL18SgASx07rNy/XVCyABnnz6kpfv80VRnLhyNS9f2lMgcux0/ra8vEvv9Jvrz/e+/QdEx2Pl70qL3wU5EzkWqVLyD4QcD4tPwdsjr/LiufYU6JUJ5VqUW3kgEKN7ecGPzFN5eURjwU/S1bx8uPH67NcliAo7jZ+XQzfcn1iKT5CcwuPhf/z47qfXQHTYqftzr8f+n/j+Y+UpUCe2/yzUfx/ys+jj8T/RP5TCD16fAHVi++9V85G/dNZjrz/8uh9R6q+uAOqkUX9epKj68Y5gUd7m0a5O//MpUCe2/3Y9X/+u+s/UsPbz+KduBHh+m9rTl+P7ZMUvn/HitVdujl/k5SfOCPOiPAXqxPbfy4v4+usSZzO+3/Z+/eMl2cZWS/zjePvCjbAj6pZAfTTqn8J55c29s5TjHwm6hDO3AOrE9p8Uc57y8r+l+DT8yM0Ly7cLf/f1x/eeuvJyVhp/T1d+7X6f4pdjxKO8OOGPqTJvAHVi+8+6OLR3rOD0nY+l+LTx9Pc0/ujv4euT9oV/dOJhePsVnAXQgO0/K65dpDllxaeAzyjA51TwRaE+/vPwOa2BPUzL/nvs/DWrP83Zp/leuD7uqE//vL4HZwH0QPtv8eU+x/k4mU99+uf/+QMa7h+rEX5ZHkpDCLMZP+C49/B3UM+Dx85fi6j4NMfvsROmL5bjD3gGe+i+AgCsD6o/AAAAAACQ15p3X3Xbt+1e+o/dP0Ru7B2nz6/b/YH9Lz+9W2YPoBoZ5uyzE+BL+eBfv2a7CU88SHW7lUHe+trdPW2/C+iGNJ32vzvuP9g+7vGrcI93p29Kws/4tl/d50kEeMvnBSXI9ItE0nj55cOHufvs/yewP9W/20eDtKe5exWjCL6yqMRX71LSNfqo+H1X/A70JZD0vyN+q2+fJ4H0WaSpEyPvfYpGcKy4pPx7X0rZF1L9T0FfAkn/u1PSF+2/z5NIWvL/cO9RrKSH+8JW/I2E/1n16wnylu4vku53hPPqE9Kf5P/+3oPYCdx6p9K1r8r/s+C7+/HT/XmO9On+ItN+B/oSSPpNqrGNXnxajfaB/y0p/z7vFkn6LY+/37aPsYjRnJqbB/o69M+b/tteNHzg/1/VF/bf/e5IIGnjf6H7RZI+BroCxDa1Kf+1Yzp8hgN+xOfUhJv0s/KfbRW/bZZf1j9JoC8+bW/s+5/vxE/b2/t+5x/b9j6+pQb0HfBp++mS+d0Kk9/gW2WZnj71j1fU3P/SB/wQNv+mFl+z9fPbbfM3tf6xBXzvSm+fJ5E0v5aW/3sV0p/+Xm2o+l8nTQV/T9X/YON6+jyJpDlt/5Xlf1Hrf5E0p+0PRf6z/f+f6r+h+lf77z+cFPnf/o4S/K4d7p8nkbSkHSvov/e+v/d9EkkvnE/Lr+V/o/X3eRJJ7wWvpf9e1X+T9a+fzf9Y5f87w9/6m/zvUwO20v9V+u91va/q/0Dzf1Xbr+r/wnB/k/d9nkTS+f5XFf/Nvvsn+u9VOy7Tf5+2t/f9U0v6sKT/jdZfy///1fY2vt/+vrL4/qfB/vb3Nti/lv/3+ecEAAAAAAAAAIAdMX8BZJATfzvHnGsAAAAASUVORK5CYII=" alt="AAA AUTO">
+            <span class="title-text">Kalkulator Bonusów Sprzedażowych - KPI Winter Poland</span>
+            <svg class="flag" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288">
+                <rect width="640" height="144" y="0" fill="#ffffff"/>
+                <rect width="640" height="144" y="144" fill="#dc143c"/>
+            </svg>
+        </h1>
+
+        <div class="name-section">
+            <div class="section-title">Dane Sprzedawcy</div>
+            <div class="input-grid-two">
+                <div class="input-group">
+                    <label for="firstName">Imię</label>
+                    <input type="text" id="firstName" placeholder="Wpisz imię">
+                </div>
+                <div class="input-group">
+                    <label for="lastName">Nazwisko</label>
+                    <input type="text" id="lastName" placeholder="Wpisz nazwisko">
+                </div>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <div class="section-title">Sprzedaż - Główne KPI</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="cashSold">Sprzedaż Cash (szt)</label>
+                    <input type="number" id="cashSold" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="leasingSold">Sprzedaż Leasing (szt)</label>
+                    <input type="number" id="leasingSold" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="walkin">Średnia walkinów/dzień</label>
+                    <input type="number" id="walkin" step="0.01" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="opportunities">Liczba opportunities/dzień</label>
+                    <input type="number" id="opportunities" step="0.01" value="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <div class="section-title">Oldstock i Pozostałe</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="oldstockSold">Oldstock sprzedane (szt)</label>
+                    <input type="number" id="oldstockSold" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="oldstockExtra">oldstock ponad 250 DIS szt</label>
+                    <input type="number" id="oldstockExtra" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="electric">Electric sprzedane (szt)</label>
+                    <input type="number" id="electric" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="swap">Swap sprzedane (szt)</label>
+                    <input type="number" id="swap" value="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="calculate-btn" onclick="calculateBonus()">OBLICZ BONUS</button>
+            <button class="print-btn" onclick="printResults()" id="printBtn" style="display: none;">DRUKUJ / EKSPORT PDF</button>
+        </div>
+
+        <div class="results" id="results">
+            <div class="employee-info" id="employeeInfo"></div>
+            <div class="section-title">Wyniki Obliczeń</div>
+            <div id="resultsContent"></div>
+            <div class="total-row">
+                <span>SUMA CAŁKOWITA:</span>
+                <span id="totalBonus">0 zł</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function determineKPILevel(walkin, opportunities) {
+            if (walkin >= 5.00 && opportunities >= 1.80) {
+                return { level: 'KPI 1', badge: 'kpi-1', cashBonus: 60.00, leasingBonus: 230.00 };
+            }
+            else if (walkin >= 4.00 && opportunities >= 1.50) {
+                return { level: 'KPI 2', badge: 'kpi-2', cashBonus: 50.00, leasingBonus: 180.00 };
+            }
+            else {
+                return { level: 'NO KPI', badge: 'no-kpi', cashBonus: 40.00, leasingBonus: 140.00 };
+            }
+        }
+
+        function calculateOldstockBonus(pieces) {
+            if (pieces < 4) {
+                return -300;
+            } else if (pieces >= 4 && pieces <= 6) {
+                return 0;
+            } else {
+                return (pieces - 6) * 50;
+            }
+        }
+
+        function calculateSwapBonus(pieces) {
+            if (pieces < 7) {
+                return 0;
+            } else {
+                return (pieces - 6) * 50;
+            }
+        }
+
+        function calculateExtraSoldCarsBonus(totalSold) {
+            if (totalSold >= 63) return 3800;
+            if (totalSold >= 60) return 3300;
+            if (totalSold >= 58) return 3000;
+            if (totalSold >= 55) return 2600;
+            if (totalSold >= 50) return 2100;
+            if (totalSold >= 45) return 1350;
+            if (totalSold >= 40) return 850;
+            return 0;
+        }
+
+        function calculateLeasingExtraBonus(leasingSold) {
+            if (leasingSold >= 22) return 2650;
+            if (leasingSold >= 21) return 2350;
+            if (leasingSold >= 20) return 2050;
+            if (leasingSold >= 19) return 1750;
+            if (leasingSold >= 18) return 1450;
+            if (leasingSold >= 17) return 1150;
+            if (leasingSold >= 16) return 850;
+            if (leasingSold >= 13) return 700;
+            return 0;
+        }
+
+        function calculateBonus() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const walkin = parseFloat(document.getElementById('walkin').value) || 0;
+            const opportunities = parseFloat(document.getElementById('opportunities').value) || 0;
+            const cashSold = parseInt(document.getElementById('cashSold').value) || 0;
+            const leasingSold = parseInt(document.getElementById('leasingSold').value) || 0;
+            const oldstockSold = parseInt(document.getElementById('oldstockSold').value) || 0;
+            const oldstockExtra = parseInt(document.getElementById('oldstockExtra').value) || 0;
+            const electric = parseInt(document.getElementById('electric').value) || 0;
+            const swap = parseInt(document.getElementById('swap').value) || 0;
+
+            const kpiLevel = determineKPILevel(walkin, opportunities);
+
+            const cashBonus = cashSold * kpiLevel.cashBonus;
+            const leasingBonus = leasingSold * kpiLevel.leasingBonus;
+            const oldstockBonus = calculateOldstockBonus(oldstockSold);
+            const oldstockExtraBonus = oldstockExtra * 250;
+            const electricBonus = electric * 100;
+            const swapBonus = calculateSwapBonus(swap);
+
+            const totalSold = cashSold + leasingSold;
+            const extraSoldCarsBonus = calculateExtraSoldCarsBonus(totalSold);
+            const leasingExtraBonus = calculateLeasingExtraBonus(leasingSold);
+
+            const totalBonus = cashBonus + leasingBonus + oldstockBonus + oldstockExtraBonus + electricBonus + swapBonus + extraSoldCarsBonus + leasingExtraBonus;
+
+            const employeeName = (firstName && lastName) ? `${firstName} ${lastName}` : 'Nie podano danych';
+            document.getElementById('employeeInfo').textContent = `Sprzedawca: ${employeeName}`;
+
+            let resultsHTML = `
+                <div class="result-row">
+                    <span class="result-label">Poziom KPI</span>
+                    <span class="result-value">${kpiLevel.level} <span class="kpi-badge ${kpiLevel.badge}">${walkin.toFixed(2)} walkin / ${opportunities.toFixed(2)} opp.</span></span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Sprzedaż Cash: ${cashSold} szt × ${kpiLevel.cashBonus.toFixed(2)} zł</span>
+                    <span class="result-value positive">${cashBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Sprzedaż Leasing: ${leasingSold} szt × ${kpiLevel.leasingBonus.toFixed(2)} zł</span>
+                    <span class="result-value positive">${leasingBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Oldstock: ${oldstockSold} szt</span>
+                    <span class="result-value ${oldstockBonus >= 0 ? 'positive' : 'negative'}">${oldstockBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Oldstock Extra Bonus: ${oldstockExtra} szt × 250 zł</span>
+                    <span class="result-value positive">${oldstockExtraBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Electric: ${electric} szt × 100 zł</span>
+                    <span class="result-value positive">${electricBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Swap: ${swap} szt${swap >= 7 ? ' × 50 zł (od 7. sztuki)' : ' (poniżej 7 szt)'}</span>
+                    <span class="result-value ${swapBonus > 0 ? 'positive' : ''}">${swapBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Extra Sold Cars Bonus: ${totalSold} szt łącznie</span>
+                    <span class="result-value ${extraSoldCarsBonus > 0 ? 'positive' : ''}">${extraSoldCarsBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Leasing Extra Bonus: ${leasingSold} szt leasing</span>
+                    <span class="result-value ${leasingExtraBonus > 0 ? 'positive' : ''}">${leasingExtraBonus.toFixed(2)} zł</span>
+                </div>
+            `;
+
+            document.getElementById('resultsContent').innerHTML = resultsHTML;
+            document.getElementById('totalBonus').textContent = totalBonus.toFixed(2) + ' zł';
+            document.getElementById('results').classList.add('show');
+            document.getElementById('printBtn').style.display = 'inline-block';
+
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function printResults() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
