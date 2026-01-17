@@ -238,84 +238,110 @@
         }
 
         @media print {
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            
             body {
                 background: white;
-                padding: 0;
-                margin: 0;
+                padding: 10px;
             }
             
             .container {
                 box-shadow: none;
-                padding: 20px;
+                padding: 10px;
                 max-width: 100%;
+                background: white;
             }
             
-            /* SKRÝT formulář při tisku */
+            /* SKRÝT formulář a vlajku při tisku */
             .name-section,
             .input-section,
-            .button-group {
+            .button-group,
+            .flag {
                 display: none !important;
             }
             
-            /* Zobrazit pouze výsledky */
+            /* Zjednodušit hlavičku */
             h1 {
-                font-size: 22px;
-                margin-bottom: 15px;
-                page-break-after: avoid;
+                font-size: 20px;
+                margin-bottom: 10px;
+                display: block;
+                text-align: center;
+                flex-direction: column;
+            }
+            
+            .title-text {
+                display: block;
+                text-align: center;
+                margin: 10px 0;
             }
             
             .logo {
-                height: 50px;
+                display: block;
+                margin: 0 auto 10px auto;
+                height: 40px;
                 width: auto;
             }
             
-            .flag {
-                height: 50px;
-                width: auto;
-                border: 1px solid #666;
-            }
-            
+            /* Zobrazit pouze výsledky */
             .results {
                 display: block !important;
-                padding: 20px;
-                margin-top: 15px;
-                page-break-inside: avoid;
+                padding: 10px;
+                margin-top: 5px;
+                background: white;
             }
             
             .employee-info {
-                font-size: 18px;
-                margin-bottom: 15px;
-                padding-bottom: 12px;
-            }
-            
-            .section-title {
                 font-size: 16px;
                 margin-bottom: 10px;
                 padding-bottom: 8px;
+                text-align: center;
+                border-bottom: 2px solid #000;
+            }
+            
+            .section-title {
+                font-size: 14px;
+                margin-bottom: 8px;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #000;
             }
             
             .result-row {
-                padding: 8px 0;
-                font-size: 14px;
+                padding: 5px 0;
+                font-size: 13px;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid #ddd;
             }
             
             .result-label {
-                font-size: 14px;
+                font-size: 13px;
+                color: #000;
             }
             
             .result-value {
-                font-size: 15px;
+                font-size: 13px;
+                color: #000;
+                font-weight: bold;
             }
             
             .total-row {
-                padding: 15px;
-                font-size: 20px;
-                margin-top: 15px;
+                padding: 10px;
+                font-size: 18px;
+                margin-top: 10px;
+                background: #f0f0f0;
+                border: 2px solid #000;
+                display: flex;
+                justify-content: space-between;
             }
             
             .kpi-badge {
-                font-size: 12px;
-                padding: 4px 12px;
+                font-size: 11px;
+                padding: 2px 8px;
+                border: 1px solid #000;
+                background: #f0f0f0;
             }
         }
 

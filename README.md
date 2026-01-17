@@ -34,12 +34,14 @@ Za 30 sekund: https://kedvin70.github.io/salesman-bonus-calc/
   - 4-6 kusů: 0 zł  
   - Nad 6 kusů: × 50 zł za každý další kus
 ✅ Oldstock Extra Bonus: 200 PLN (opraveno z 250 PLN)
-✅ Tisk optimalizován na 1 stránku
+✅ Tisk optimalizován na PŘESNĚ 1 stránku
   - Formulář (input pole) se při tisku SKRÝVÁ
+  - Vlajka se při tisku SKRÝVÁ (kvůli problémy s zobrazením)
   - Zobrazují se pouze VÝSLEDKY výpočtu
-  - Logo, jméno prodejce a všechny bonusy
-  - Vše na jedné stránce A4
-  - Border kolem vlajky aby byla vidět bílá část při tisku
+  - Logo AAA AUTO centrované nahoře
+  - Jméno prodejce a všechny bonusy
+  - Kompaktní layout - vše na jedné stránce A4
+  - Zjednodušený černobílý design pro tisk
 
 ## Struktura projektu:
 ```
