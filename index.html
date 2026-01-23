@@ -99,7 +99,7 @@
             padding: 6px;
             border: 2px solid #4a5568;
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 17px;
             transition: border-color 0.3s;
             background: #fff;
         }
@@ -567,6 +567,20 @@
             </div>
         </div>
 
+        <div class="input-section">
+            <div class="section-title">NPS</div>
+            <div class="input-grid-two">
+                <div class="input-group">
+                    <label for="npsScore">NPS skóre</label>
+                    <input type="number" id="npsScore" step="1" value="0" min="-100" max="100">
+                </div>
+                <div class="input-group">
+                    <label for="foreignSales">Cizajazyčný prodej (szt)</label>
+                    <input type="number" id="foreignSales" value="0" min="0">
+                </div>
+            </div>
+        </div>
+
         <div class="button-group">
             <button class="calculate-btn" onclick="calculateBonus()">OBLICZ BONUS</button>
             <button class="print-btn" onclick="printResults()" id="printBtn" style="display: none;">DRUKUJ / EKSPORT PDF</button>
@@ -601,6 +615,8 @@
                 return -300;
             } else if (pieces >= 4 && pieces <= 6) {
                 return 0;
+            } else if (pieces >= 7) {
+                return pieces * 50;  // 7+ kusů = celý počet × 50
             } else {
                 return (pieces - 6) * 50;
             }
@@ -637,6 +653,14 @@
             return 0;
         }
 
+        function calculateNPSBonus(npsScore, totalSold) {
+            // Mimořádný bonus 2000 PLN jen když NPS >= 80 A ZÁROVEŇ prodej >= 40
+            if (npsScore >= 80 && totalSold >= 40) {
+                return 2000;
+            }
+            return 0;
+        }
+
         function calculateBonus() {
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
@@ -648,6 +672,8 @@
             const oldstockExtra = parseInt(document.getElementById('oldstockExtra').value) || 0;
             const electric = parseInt(document.getElementById('electric').value) || 0;
             const swap = parseInt(document.getElementById('swap').value) || 0;
+            const npsScore = parseInt(document.getElementById('npsScore').value) || 0;
+            const foreignSales = parseInt(document.getElementById('foreignSales').value) || 0;
 
             const kpiLevel = determineKPILevel(walkin, opportunities);
 
@@ -657,12 +683,14 @@
             const oldstockExtraBonus = oldstockExtra * 200;
             const electricBonus = electric * 100;
             const swapBonus = calculateSwapBonus(swap);
+            const foreignSalesBonus = foreignSales * 100;
 
             const totalSold = cashSold + leasingSold;
             const extraSoldCarsBonus = calculateExtraSoldCarsBonus(totalSold);
             const leasingExtraBonus = calculateLeasingExtraBonus(leasingSold);
+            const npsBonus = calculateNPSBonus(npsScore, totalSold);
 
-            const totalBonus = cashBonus + leasingBonus + oldstockBonus + oldstockExtraBonus + electricBonus + swapBonus + extraSoldCarsBonus + leasingExtraBonus;
+            const totalBonus = cashBonus + leasingBonus + oldstockBonus + oldstockExtraBonus + electricBonus + swapBonus + extraSoldCarsBonus + leasingExtraBonus + npsBonus + foreignSalesBonus;
 
             const employeeName = (firstName && lastName) ? `${firstName} ${lastName}` : 'Nie podano danych';
             document.getElementById('employeeInfo').textContent = `Sprzedawca: ${employeeName}`;
@@ -684,6 +712,7 @@
                     <span class="result-label">Oldstock: ${oldstockSold} szt${
                         oldstockSold < 4 ? ' (poniżej 4 szt: -300 zł)' :
                         oldstockSold >= 4 && oldstockSold <= 6 ? ' (4-6 szt: 0 zł)' :
+                        oldstockSold >= 7 ? ` × 50 zł (celý počet)` :
                         ` × 50 zł (${oldstockSold - 6} szt ponad 6)`
                     }</span>
                     <span class="result-value ${oldstockBonus >= 0 ? 'positive' : 'negative'}">${oldstockBonus.toFixed(2)} zł</span>
@@ -707,6 +736,19 @@
                 <div class="result-row">
                     <span class="result-label">Leasing Extra Bonus: ${leasingSold} szt leasing</span>
                     <span class="result-value ${leasingExtraBonus > 0 ? 'positive' : ''}">${leasingExtraBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Cizajazyčný prodej: ${foreignSales} szt × 100 zł</span>
+                    <span class="result-value ${foreignSalesBonus > 0 ? 'positive' : ''}">${foreignSalesBonus.toFixed(2)} zł</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">NPS - Extra Bonus: ${npsScore} / ${totalSold} szt${
+                        npsScore >= 80 && totalSold >= 40 ? ' ✓ (splněno obě podmínky)' : 
+                        npsScore < 80 && totalSold < 40 ? ' (nesplněno - potřeba NPS 80+ a 40+ vozů)' :
+                        npsScore < 80 ? ' (nesplněno - potřeba NPS 80+)' :
+                        ' (nesplněno - potřeba 40+ vozů)'
+                    }</span>
+                    <span class="result-value ${npsBonus > 0 ? 'positive' : ''}">${npsBonus.toFixed(2)} zł</span>
                 </div>
             `;
 
