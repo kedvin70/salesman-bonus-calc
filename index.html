@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Bonusów Sprzedażowych - KPI Poland</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WH0KB2RHKF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WH0KB2RHKF');
+    </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -859,7 +869,7 @@
                         ' (nesplněno - potřeba 40+ vozů)'
                     }</span>
                     <span class="result-value ${npsBonus > 0 ? 'positive' : ''}">${npsBonus.toFixed(2)} zł</span>
-                </div> 
+                </div>
             `;
 
             document.getElementById('resultsContent').innerHTML = resultsHTML;
@@ -868,9 +878,26 @@
             document.getElementById('printBtn').style.display = 'inline-block';
 
             document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Google Analytics: Track bonus calculation
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'calculate_bonus', {
+                    'event_category': 'engagement',
+                    'event_label': 'bonus_calculated',
+                    'value': Math.round(totalBonus)
+                });
+            }
         }
 
         function printResults() {
+            // Google Analytics: Track print/export
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'print_results', {
+                    'event_category': 'engagement',
+                    'event_label': 'pdf_export'
+                });
+            }
+            
             window.print();
         }
 
@@ -881,4 +908,3 @@
     </script>
 </body>
 </html>
-
